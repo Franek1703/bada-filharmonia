@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Main Page</title>
+
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+
+</head>
+<body>
+
+<!--<script>-->
+<!--    setTimeout(function(){-->
+<!--        window.location.href = 'https://www.tutorialspoint.com/javascript/';-->
+<!--    }, 5000);-->
+<!--</script>-->
+
+<!--<script type="text/javascript">-->
+<!--    function Redirect()-->
+<!--    {-->
+<!--        window.location="http://www.wp.pl";-->
+<!--    }-->
+<!--    document.write("[[${#httpServletRequest.remoteUser}]] You will be redirected to a new page in 5 seconds");-->
+<!--    setTimeout('Redirect()', 5000);-->
+<!--</script>-->
+
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">BDBT Spring Boot Project - Part II</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/index}">Home</a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Main
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:inline="text" style="color:lightskyblue;">You are logged in as <b style="text-transform:capitalize">[[${#httpServletRequest.remoteUser}]]</b></a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-10 mt-5">
+                <form method="post" th:action="@{/index}">
+                <div class="form-group">
+                    <label th:inline="text">Welcome <a style="color:lightskyblue; text-transform:capitalize"><b>[[${#httpServletRequest.remoteUser}]]</b></a> to the main page!</label>
+                    <div>If you want to logout, click "Logout" button under this text.</div>
+                </div>
+
+                <button class="btn btn-primary" type="submit" onclick="successfullyLogout()" value="Sign Out">Logout</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/script.js}"></script>
+
+</body>
+</html>
