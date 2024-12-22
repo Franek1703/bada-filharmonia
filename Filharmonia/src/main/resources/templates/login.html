@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Filharmonia</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('/images/filharmonia.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        .login-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .login-container h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .login-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-container label {
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        .login-container input {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .login-container button {
+            padding: 10px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-container button:hover {
+            background: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!--<div class="login-container" id="userLogin">-->
+<!--    <h1>User Login</h1>-->
+<!--    <div th:if="${param.error}" class="error-message">Invalid username and password.</div>-->
+<!--    <form th:action="@{/login}" method="post">-->
+<!--        <label for="username">User Name:</label>-->
+<!--        <input type="text" id="username" name="username" required/>-->
+
+<!--        <label for="password">Password:</label>-->
+<!--        <input type="password" id="password" name="password" required/>-->
+
+<!--        <button type="submit">Sign In</button>-->
+<!--    </form>-->
+<!--    <div class="toggle" onclick="showAdminLogin()">Log in as Admin</div>-->
+<!--</div>-->
+
+<div class="login-container" id="adminLogin" style="display: block;">
+    <h1>Admin Login</h1>
+    <div th:if="${param.error}" class="error-message">Invalid admin username and password.</div>
+    <form th:action="@{/admin/login}" method="post">
+        <label for="adminUsername">Admin Name:</label>
+        <input type="text" id="adminUsername" name="username" required/>
+
+        <label for="adminPassword">Password:</label>
+        <input type="password" id="adminPassword" name="password" required/>
+
+        <button type="submit">Sign In</button>
+    </form>
+<!--    <div class="toggle" onclick="showUserLogin()">Log in as User</div>-->
+</div>
+
+<!--<script>-->
+<!--    function showAdminLogin() {-->
+<!--        document.getElementById('userLogin').style.display = 'none';-->
+<!--        document.getElementById('adminLogin').style.display = 'block';-->
+<!--    }-->
+
+<!--    function showUserLogin() {-->
+<!--        document.getElementById('adminLogin').style.display = 'none';-->
+<!--        document.getElementById('userLogin').style.display = 'block';-->
+<!--    }-->
+<!--</script>-->
+
+</body>
+</html>
