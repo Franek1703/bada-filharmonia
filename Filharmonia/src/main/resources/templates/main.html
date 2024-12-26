@@ -1,83 +1,103 @@
-<!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Main Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filharmonia</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('/images/filharmonia.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
 
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+        }
 
+        .content h1 {
+            margin: 0 0 20px;
+        }
+
+        .content p {
+            margin: 0 0 30px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background: #0056b3;
+        }
+
+        .login-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+        }
+
+        .login-panel {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .login-panel a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            margin: 5px 0;
+        }
+
+        .login-panel a:hover {
+            text-decoration: underline;
+        }
+
+        .login-icon:hover + .login-panel,
+        .login-panel:hover {
+            display: block;
+        }
+    </style>
 </head>
 <body>
 
-<!--<script>-->
-<!--    setTimeout(function(){-->
-<!--        window.location.href = 'https://www.tutorialspoint.com/javascript/';-->
-<!--    }, 5000);-->
-<!--</script>-->
-
-<!--<script type="text/javascript">-->
-<!--    function Redirect()-->
-<!--    {-->
-<!--        window.location="http://www.wp.pl";-->
-<!--    }-->
-<!--    document.write("[[${#httpServletRequest.remoteUser}]] You will be redirected to a new page in 5 seconds");-->
-<!--    setTimeout('Redirect()', 5000);-->
-<!--</script>-->
-
-
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-    <div class="container">
-        <a class="navbar-brand" href="/">BDBT Spring Boot Project - Part II</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/index}">Home</a>
-                </li>
-
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Main
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" th:inline="text" style="color:lightskyblue;">You are logged in as <b style="text-transform:capitalize">[[${#httpServletRequest.remoteUser}]]</b></a>
-                </li>
-
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<div class="container">
-    <div class="row">
-
-        <div class="col-md-10 mt-5">
-                <form method="post" th:action="@{/index}">
-                <div class="form-group">
-                    <label th:inline="text">Welcome <a style="color:lightskyblue; text-transform:capitalize"><b>[[${#httpServletRequest.remoteUser}]]</b></a> to the main page!</label>
-                    <div>If you want to logout, click "Logout" button under this text.</div>
-                </div>
-
-                <button class="btn btn-primary" type="submit" onclick="successfullyLogout()" value="Sign Out">Logout</button>
-            </form>
-        </div>
-
-    </div>
+<div class="login-icon">
+    <img src="/icons/login-icon.png" alt="Login" width="40" height="40">
+</div>
+<div class="login-panel" id="loginPanel">
+<!--    <a href="/login">Log In</a>-->
+<!--    <a href="/register">Create Account</a>-->
+    <a href="/admin">Admin Login</a>
 </div>
 
-
-<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-<script th:src="@{/js/script.js}"></script>
+<div class="content">
+    <h1>Filharmonia System</h1>
+    <p>Welcome to the Filharmonia Management System, where you can explore events, manage reservations, and experience the best of cultural artistry.</p>
+    <a href="/reservation" class="button">Reserve Now</a>
+</div>
 
 </body>
 </html>
