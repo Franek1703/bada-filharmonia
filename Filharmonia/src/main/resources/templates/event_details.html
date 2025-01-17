@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Details</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('/images/filharmonia.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    .content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+    }
+
+    .content h1 {
+      margin: 0 0 20px;
+    }
+
+    .content p {
+      margin: 0 0 15px;
+    }
+
+    .reserve-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #007BFF;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .reserve-btn:hover {
+      background: #0056b3;
+    }
+
+    .reserve-btn:disabled {
+      background: #a9a9a9; /* Szary */
+      color: white;
+      cursor: not-allowed;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #6c757d;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .back-btn:hover {
+      background: #5a6268;
+    }
+
+    .fully-booked p {
+      color: red; /* Czerwony */
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<div class="content">
+  <h1 class="event-name">Event: <span th:text="${eventName}"></span></h1>
+  <p class="event-description">Description: <span th:text="${eventDescription}"></span></p>
+  <p class="event-date">Date: <span th:text="${eventDate}"></span></p>
+  <p class="hall-name">Concert Hall: <span th:text="${hallName}"></span></p>
+  <p class="seats-info">
+    Total Seats: <span th:text="${totalSeats}"></span> |
+    Sold Tickets: <span th:text="${soldTickets}"></span> |
+    Available Seats: <span th:text="${availableSeats}"></span>
+  </p>
+
+  <div th:if="${isFullyBooked}" class="event-status fully-booked">
+    <p>This event is fully booked.</p>
+    <button class="reserve-btn" disabled>Reserve</button>
+  </div>
+  <div th:if="${!isFullyBooked}" class="event-status available">
+    <button class="reserve-btn">Reserve</button>
+  </div>
+
+  <a href="/reservation" class="back-btn">Back to Events</a>
+</div>
+</body>
+</html>

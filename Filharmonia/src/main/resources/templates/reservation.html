@@ -1,10 +1,160 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('/images/filharmonia.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            max-width: 90%;
+            box-sizing: border-box;
+            margin-top: 90px;
+        }
+
+        .content h1 {
+            margin: 0 0 20px;
+        }
+
+        .event-group {
+            margin: 30px 0;
+        }
+
+        .event-group h2 {
+            margin-bottom: 10px;
+            color: #FFD700;
+        }
+
+        .event-tile {
+            background: rgba(0, 0, 0, 0.8);
+            margin: 10px auto;
+            padding: 15px;
+            border-radius: 5px;
+            display: flex;
+            text-align: left;
+            flex-direction: column;
+            justify-content: space-between;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .event-tile h3 {
+            margin: 0;
+            font-size: 20px;
+            color: #87CEFA;
+        }
+
+        .event-description {
+            margin: 10px 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex-grow: 1;
+            margin-right: 80px; /* Miejsce na przycisk Select */
+        }
+
+        .event-description.expanded {
+            white-space: normal;
+            max-height: none;
+        }
+
+        .event-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .toggle-description {
+            color: #87CEFA;
+            cursor: pointer;
+            display: none; /* Ukryty domyślnie */
+        }
+
+        .button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background: #0056b3;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const eventTiles = document.querySelectorAll('.event-tile');
+
+            eventTiles.forEach(tile => {
+                const description = tile.querySelector('.event-description');
+                const toggle = tile.querySelector('.toggle-description');
+
+                if (description.scrollWidth > description.clientWidth) {
+                    toggle.style.display = 'block';
+                }
+
+                toggle.addEventListener('click', function () {
+                    description.classList.toggle('expanded');
+                    toggle.textContent = description.classList.contains('expanded') ? 'Collapse' : 'Expand';
+                });
+            });
+        });
+    </script>
 </head>
 <body>
+
+<div class="login-icon">
+    <img src="/icons/login-icon.png" alt="Login" width="40" height="40">
+</div>
+<div class="login-panel">
+    <a href="/admin">Admin Login</a>
+</div>
+
+<div class="content">
+    <h1>Philharmonia Repertoire</h1>
+    <div th:each="entry : ${groupedEvents}" class="event-group">
+        <h2 th:text="${entry.key}">Date</h2>
+        <div th:each="event : ${entry.value}" class="event-tile">
+            <h3 th:text="${event.name}">Event Name</h3>
+            <p class="event-description" th:if="${event.description}" th:text="${event.description}"></p>
+            <div class="event-actions">
+                <span class="toggle-description">Expand</span>
+            </div>
+            <form th:action="@{/reservation/event}" method="post">
+                <input type="hidden" th:name="id" th:value="${event.id}" />
+                <input type="hidden" th:name="name" th:value="${event.name}" />
+                <input type="hidden" th:name="description" th:value="${event.description}" />
+                <input type="hidden" th:name="date" th:value="${event.date}" />
+                <input type="hidden" th:name="hall.name" th:value="${event.hall.name}" />
+                <input type="hidden" th:name="hall.capacity" th:value="${event.hall.capacity}" />
+                <input type="hidden" th:name="hall.id" th:value="${event.hall.id}" />
+                <button type="submit" class="button">Select</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
