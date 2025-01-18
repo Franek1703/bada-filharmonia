@@ -9,7 +9,7 @@
 <h1 th:inline="text">
     Hello [[${#authentication != null} ? ${#authentication.name} : 'Guest']]!
 </h1>
-<form th:action="@{/logout}" method="post">
+<form th:action="@{/admin/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
 </body>

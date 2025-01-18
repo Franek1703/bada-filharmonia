@@ -2,13 +2,13 @@ package com.bada_project.filharmonia.controller;
 
 import com.bada_project.filharmonia.model.Event;
 import com.bada_project.filharmonia.model.Hall;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,7 +19,7 @@ public class ReservationController {
     @PostMapping("/reservation/event")
     public String getEventDetails(@ModelAttribute Event event, Model model) {
         // Mock data for demonstration purposes
-        int soldTickets = 500; // TODO: Replace this with a database query to get the actual number of tickets sold
+        int soldTickets = 400; // TODO: Replace this with a database query to get the actual number of tickets sold
 
         model.addAttribute("eventName", event.getName());
         model.addAttribute("eventDescription", event.getDescription());
@@ -28,7 +28,7 @@ public class ReservationController {
         model.addAttribute("totalSeats", event.getHall().getCapacity());
         model.addAttribute("soldTickets", soldTickets);
         model.addAttribute("availableSeats", event.getHall().getCapacity() - soldTickets);
-
+        model.addAttribute("eventID", event.getId());
         // Check if the hall is fully booked
         if (soldTickets >= event.getHall().getCapacity()) {
             model.addAttribute("isFullyBooked", true);
@@ -42,6 +42,8 @@ public class ReservationController {
 
     @GetMapping("/reservation")
     public String getReservations(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Authentication: " + authentication); // Check authentication state
         // Mock data for events
         List<Event> events = List.of(
                 new Event(1, "2025-01-20", "Concert A", "Description for Concert A", new Hall("Main Hall", 500,1)),
@@ -67,4 +69,17 @@ public class ReservationController {
         model.addAttribute("groupedEvents", groupedEvents);
         return "reservation";
     }
+
+    @GetMapping("/check-login")
+    public String checkLogin(@RequestParam("eventId") Long eventId, Principal principal) {
+        if (principal != null) {
+            // User is logged in
+            // TODO: Add logic to handle ticket reservation and save to database
+            return "redirect:/reservation/success";
+        } else {
+            // User not logged in
+            return "redirect:/user-login?eventId=" + eventId;
+        }
+    }
+
 }

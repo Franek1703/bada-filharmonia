@@ -94,8 +94,14 @@
     <button class="reserve-btn" disabled>Reserve</button>
   </div>
   <div th:if="${!isFullyBooked}" class="event-status available">
-    <button class="reserve-btn">Reserve</button>
+    <button class="reserve-btn" onclick="reserveTicket()" th:data-event-id="${eventID}">Reserve</button>
   </div>
+  <script>
+    function reserveTicket() {
+      const eventId = document.querySelector('.reserve-btn').getAttribute('data-event-id');
+      window.location.href = `/check-login?eventId=${eventId}`;
+    }
+  </script>
 
   <a href="/reservation" class="back-btn">Back to Events</a>
 </div>

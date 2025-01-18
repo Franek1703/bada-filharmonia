@@ -55,6 +55,13 @@
             cursor: pointer;
         }
 
+        .user-panel{
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+        }
+
         .login-panel {
             position: absolute;
             top: 60px;
@@ -84,17 +91,27 @@
 </head>
 <body>
 
-<div class="login-icon">
+<div th:if="${#authentication.name} != anonymousUser" class="user-panel">
+    <p>
+        Welcome,
+        <span th:text="${#authentication.details.firstName}">FirstName</span>
+        <span th:text="${#authentication.details.lastName}">LastName</span>!
+    </p>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit" class="logout-button">Logout</button>
+    </form>
+</div>
+
+<div th:if="${#authentication.name} == anonymousUser" class="login-icon">
     <img src="/icons/login-icon.png" alt="Login" width="40" height="40">
 </div>
 <div class="login-panel" id="loginPanel">
-<!--    <a href="/login">Log In</a>-->
-<!--    <a href="/register">Create Account</a>-->
+    <a href="/user/login">User Login</a>
     <a href="/admin">Admin Login</a>
 </div>
 
 <div class="content">
-    <h1>Filharmonia System</h1>
+    <h1>Filharmonia System [[${#authentication != null} ? ${#authentication.name} : 'Guest']]!</h1>
     <p>Welcome to the Filharmonia Management System, where you can explore events, manage reservations, and experience the best of cultural artistry.</p>
     <a href="/reservation" class="button">Reserve Now</a>
 </div>
