@@ -1,5 +1,6 @@
 package com.bada_project.filharmonia;
 
+import com.bada_project.filharmonia.model.UserModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -131,6 +132,10 @@ public class SecurityConfiguration {
                 String firstName = parts[0];
                 String lastName = parts[1];
 
+                //TODO LOAD user from data base, if not exist create one and return user id
+
+                int testId = 1;
+
                 // Custom validation (this is where you can check against hardcoded values or future database)
                 if ("504440436".equals(username) && "Franciszek".equals(firstName) && "Zarębski".equals(lastName)) {
                     UserDetails user = User.withUsername(username)
@@ -138,7 +143,7 @@ public class SecurityConfiguration {
                             .roles("USER")
                             .build();
                     UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-                    auth.setDetails(new CustomWebAuthenticationDetails(firstName, lastName)); // Add custom details
+                    auth.setDetails(new UserModel(firstName,lastName,testId,username)); // Add custom details
                     return auth;
                 }
                 throw new AuthenticationException("Invalid credentials") {};
