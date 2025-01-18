@@ -2,11 +2,13 @@ package com.bada_project.filharmonia.controller;
 
 import com.bada_project.filharmonia.model.Event;
 import com.bada_project.filharmonia.model.Hall;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.security.Principal;
 import java.util.*;
@@ -15,6 +17,9 @@ import java.util.stream.Collectors;
 
 @Controller
 public class ReservationController {
+
+    @Value("${event.price}")
+    private String eventPrice;
 
     @PostMapping("/reservation/event")
     public String getEventDetails(@ModelAttribute Event event, Model model) {
@@ -29,6 +34,7 @@ public class ReservationController {
         model.addAttribute("soldTickets", soldTickets);
         model.addAttribute("availableSeats", event.getHall().getCapacity() - soldTickets);
         model.addAttribute("eventID", event.getId());
+        model.addAttribute("eventPrice", eventPrice);
         // Check if the hall is fully booked
         if (soldTickets >= event.getHall().getCapacity()) {
             model.addAttribute("isFullyBooked", true);
@@ -72,14 +78,11 @@ public class ReservationController {
 
     @GetMapping("/check-login")
     public String checkLogin(@RequestParam("eventId") Long eventId, Principal principal) {
-        if (principal != null) {
+
             // User is logged in
             // TODO: Add logic to handle ticket reservation and save to database
             return "redirect:/reservation/success";
-        } else {
-            // User not logged in
-            return "redirect:/user-login?eventId=" + eventId;
-        }
+
     }
 
 }

@@ -15,7 +15,10 @@ public class AppController implements WebMvcConfigurer {
         registry.addViewController("/reservation").setViewName("reservation");
         registry.addViewController("/reservation/event").setViewName("event_details");
         registry.addViewController("/admin/logout").setViewName("main");
-        registry.addViewController("/logout").setViewName("main");
+        registry.addViewController("/user/logout/main").setViewName("main");
+        registry.addViewController("/user/logout/reservation").setViewName("reservation");
+        registry.addViewController("/user/logout/event_details").setViewName("event_details");
+        registry.addViewController("/reservation/success").setViewName("reservation_success");
     }
 }
 

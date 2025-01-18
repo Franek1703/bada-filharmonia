@@ -102,6 +102,77 @@
         .button:hover {
             background: #0056b3;
         }
+
+        .login-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+        }
+
+        .login-panel {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .login-panel a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            margin: 5px 0;
+        }
+
+        .login-panel a:hover {
+            text-decoration: underline;
+        }
+
+        .login-icon:hover + .login-panel,
+        .login-panel:hover {
+            display: block;
+        }
+        .user-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-align: right;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .welcome-text {
+            font-size: 18px;
+            margin: 0;
+            color: #fff;
+        }
+
+        .logout-form {
+            margin: 10px 0 0;
+        }
+
+        .logout-button {
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .logout-button:hover {
+            background-color: #0056b3;
+        }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -125,10 +196,22 @@
 </head>
 <body>
 
-<div class="login-icon">
+<div th:if="${#authentication.name} != anonymousUser" class="user-panel">
+    <p class="welcome-text">
+        Welcome,
+        <span th:text="${#authentication.details.firstName}">FirstName</span>
+        <span th:text="${#authentication.details.lastName}">LastName</span>!
+    </p>
+    <form th:action="@{/user/logout/reservation}" method="post" class="logout-form">
+        <button type="submit" class="logout-button">Logout</button>
+    </form>
+</div>
+
+<div th:if="${#authentication.name} == anonymousUser" class="login-icon">
     <img src="/icons/login-icon.png" alt="Login" width="40" height="40">
 </div>
-<div class="login-panel">
+<div class="login-panel" id="loginPanel">
+    <a href="/user/login/reservation">User Login</a>
     <a href="/admin">Admin Login</a>
 </div>
 

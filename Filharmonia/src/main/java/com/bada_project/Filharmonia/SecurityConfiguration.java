@@ -19,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.savedrequest.SavedRequest;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -76,18 +77,27 @@ public class SecurityConfiguration {
                 )
                 .formLogin(form -> form
                         .loginPage("/user/login") // User login page
-                        .defaultSuccessUrl("/main", true) // Redirect to main page after login
+                                .successHandler((request, response, authentication) -> {
+                                    SavedRequest savedRequest = (SavedRequest) request.getSession()
+                                            .getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+                                    String redirectUrl = savedRequest != null
+                                            ? savedRequest.getRedirectUrl()
+                                            : request.getHeader("Referer");
+
+                                        if(redirectUrl.contains("/user/login")){
+                                            redirectUrl = redirectUrl.replace("/user/login", "");
+                                        }
+                                        if(redirectUrl.isEmpty()) {
+                                            redirectUrl = "/main";
+                                        }
+                                    System.out.println("User logged in: " + authentication.getName());
+                                    System.out.println("Redirecting to: " + redirectUrl);
+                                    response.sendRedirect(redirectUrl);
+                                })
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .addLogoutHandler((request, response, auth) -> {
-                            if (auth != null) {
-                                SecurityContextHolder.clearContext();
-                                request.getSession().invalidate();
-                                System.out.println("User logged out and SecurityContext cleared.");
-                            }                        })
-                        .logoutSuccessUrl("/main")
+                        .logoutUrl("/user/logout")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .permitAll()
