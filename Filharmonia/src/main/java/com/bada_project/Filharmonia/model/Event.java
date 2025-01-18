@@ -11,7 +11,6 @@ import lombok.Setter;
 @Getter
 //@Entity
 public class Event {
-    // Getters and Setters
 //    @Id
     private int id;
     private String date;

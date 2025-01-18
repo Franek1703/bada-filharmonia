@@ -155,7 +155,7 @@
         }
 
         .logout-button {
-            background-color: #007BFF;
+            background-color: #dc3545;
             border: none;
             color: white;
             padding: 8px 15px;
@@ -171,7 +171,7 @@
         }
 
         .logout-button:hover {
-            background-color: #0056b3;
+            background-color: #c82333;
         }
     </style>
     <script>
@@ -203,7 +203,7 @@
         <span th:text="${#authentication.details.lastName}">LastName</span>!
     </p>
     <form th:action="@{/user/logout/reservation}" method="post" class="logout-form">
-        <button type="submit" class="logout-button">Logout</button>
+        <button type="submit" class="logout-button">Sign Out</button>
     </form>
 </div>
 
