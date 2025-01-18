@@ -4,12 +4,7 @@ package com.bada_project.filharmonia.model;
 //import jakarta.persistence.Id;
 //import jakarta.persistence.JoinColumn;
 //import jakarta.persistence.ManyToOne;
-import lombok.Getter;
-import lombok.Setter;
 
-@Setter
-@Getter
-//@Entity
 public class Event {
     // Getters and Setters
 //    @Id
@@ -29,6 +24,46 @@ public class Event {
         this.date = date;
         this.name = name;
         this.description = description;
+        this.hall = hall;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Hall getHall() {
+        return hall;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setHall(Hall hall) {
         this.hall = hall;
     }
 }

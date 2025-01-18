@@ -2,12 +2,7 @@ package com.bada_project.filharmonia.model;
 
 //import jakarta.persistence.Entity;
 //import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
 
-@Setter
-@Getter
-//@Entity
 public class Hall {
 
     // Getters and Setters
@@ -22,5 +17,29 @@ public class Hall {
         this.name = name;
         this.capacity = capacity;
         this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 }
