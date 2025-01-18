@@ -1,4 +1,4 @@
-package com.bada_project.filharmonia;
+package com.bada_project.Filharmonia;
 
 import com.bada_project.filharmonia.model.UserModel;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package com.bada_project.filharmonia;
+package com.bada_project.Filharmonia;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
     import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
