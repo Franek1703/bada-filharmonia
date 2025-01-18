@@ -84,6 +84,14 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc8</artifactId>
+            <version>11</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/ojdbc11.jar</systemPath>
+        </dependency>
+
     </dependencies>
 
     <build>

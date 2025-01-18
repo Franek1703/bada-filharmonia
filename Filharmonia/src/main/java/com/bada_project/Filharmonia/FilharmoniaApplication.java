@@ -1,4 +1,4 @@
-package com.bada_project.filharmonia;
+package com.bada_project.Filharmonia;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

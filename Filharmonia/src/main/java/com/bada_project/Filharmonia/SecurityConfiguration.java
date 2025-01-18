@@ -1,4 +1,4 @@
-package com.bada_project.filharmonia;
+package com.bada_project.Filharmonia;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
