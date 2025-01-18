@@ -19,7 +19,7 @@ public class TicketDAO {
     // Helper method to map ResultSet to Ticket
     private Ticket mapRowToTicket(ResultSet rs) throws SQLException {
         Ticket ticket = new Ticket();
-        ticket.setTicketNumber(rs.getInt("Nr_biletu"));
+        ticket.setId(rs.getInt("Nr_biletu"));
         ticket.setPurchaseDate(rs.getString("Data_zakupu"));
         ticket.setGrossPrice(rs.getDouble("Cena_brutto"));
         ticket.setNetPrice(rs.getDouble("Cena_netto"));
@@ -44,7 +44,7 @@ public class TicketDAO {
     public void save(Ticket ticket) {
         String sql = "INSERT INTO \"Bilety\" (\"Nr_biletu\", \"Data_zakupu\", \"Cena_brutto\", \"Cena_netto\", \"Kategoria\", \"Nr_klienta\", \"Nr_wydarzenia\") " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, ticket.getTicketNumber(), ticket.getPurchaseDate(), ticket.getGrossPrice(),
+        jdbcTemplate.update(sql, ticket.getId(), ticket.getPurchaseDate(), ticket.getGrossPrice(),
                 ticket.getNetPrice(), ticket.getCategory(), ticket.getUser().getId(), ticket.getEvent().getId());
     }
 
@@ -57,7 +57,7 @@ public class TicketDAO {
         String sql = "UPDATE \"Bilety\" SET \"Data_zakupu\" = ?, \"Cena_brutto\" = ?, \"Cena_netto\" = ?, \"Kategoria\" = ?, \"Nr_klienta\" = ?, \"Nr_wydarzenia\" = ? " +
                 "WHERE \"Nr_biletu\" = ?";
         jdbcTemplate.update(sql, ticket.getPurchaseDate(), ticket.getGrossPrice(), ticket.getNetPrice(),
-                ticket.getCategory(), ticket.getUser().getId(), ticket.getEvent().getId(), ticket.getTicketNumber());
+                ticket.getCategory(), ticket.getUser().getId(), ticket.getEvent().getId(), ticket.getId());
     }
 
     public void delete(int id) {

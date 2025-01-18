@@ -50,7 +50,7 @@ public class TicketDAOTest {
         int id = 1;
         Ticket ticket = dao.get(id);
         assertNotNull(ticket);
-        assertEquals(id, ticket.getTicketNumber());
+        assertEquals(id, ticket.getId());
     }
 
     @Test
@@ -64,7 +64,7 @@ public class TicketDAOTest {
         Ticket ticket = new Ticket(1, "2025-01-01", 120.0, 100.0, "Premium", user, event);
         dao.update(ticket);
 
-        Ticket updatedTicket = dao.get(ticket.getTicketNumber());
+        Ticket updatedTicket = dao.get(ticket.getId());
         assertEquals("Premium", updatedTicket.getCategory());
         assertEquals(120.0, updatedTicket.getGrossPrice());
     }

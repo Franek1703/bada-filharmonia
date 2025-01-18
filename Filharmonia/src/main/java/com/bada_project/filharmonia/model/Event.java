@@ -6,7 +6,6 @@ package com.bada_project.filharmonia.model;
 //import jakarta.persistence.ManyToOne;
 
 public class Event {
-    // Getters and Setters
 //    @Id
     private int id;
     private String date;

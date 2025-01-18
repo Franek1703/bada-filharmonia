@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.User;
 //@Entity
 public class Ticket {
 
-    private int ticketNumber;
+    private int id;
     private String purchaseDate;
     private double grossPrice;
     private double netPrice;
@@ -16,12 +16,11 @@ public class Ticket {
     private UserModel user;
     private Event event;
 //    @Id
-    private Long id;
 
     public Ticket() {}
 
-    public Ticket(int ticketNumber, String purchaseDate, double grossPrice, double netPrice, String category, UserModel user, Event event) {
-        this.ticketNumber = ticketNumber;
+    public Ticket(int id, String purchaseDate, double grossPrice, double netPrice, String category, UserModel user, Event event) {
+        this.id = id;
         this.purchaseDate = purchaseDate;
         this.grossPrice = grossPrice;
         this.netPrice = netPrice;
@@ -30,8 +29,8 @@ public class Ticket {
         this.event = event;
     }
 
-    public int getTicketNumber() {
-        return ticketNumber;
+    public int getId() {
+        return id;
     }
 
     public String getPurchaseDate() {
@@ -58,13 +57,6 @@ public class Ticket {
         return event;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setTicketNumber(int ticketNumber) {
-        this.ticketNumber = ticketNumber;
-    }
 
     public void setPurchaseDate(String purchaseDate) {
         this.purchaseDate = purchaseDate;
@@ -90,7 +82,7 @@ public class Ticket {
         this.event = event;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 }

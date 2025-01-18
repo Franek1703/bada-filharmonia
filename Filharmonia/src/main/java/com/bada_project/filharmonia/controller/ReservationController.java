@@ -2,6 +2,8 @@ package com.bada_project.filharmonia.controller;
 
 import com.bada_project.filharmonia.model.Event;
 import com.bada_project.filharmonia.model.Hall;
+import com.bada_project.filharmonia.model.Ticket;
+import com.bada_project.filharmonia.model.UserModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,11 +23,13 @@ public class ReservationController {
 
     @Value("${event.price}")
     private String eventPrice;
+    @Value("${event.netPrice}")
+    private String eventNetPrice;
 
     @PostMapping("/reservation/event")
     public String getEventDetails(@ModelAttribute Event event, Model model) {
         // Mock data for demonstration purposes
-        int soldTickets = 400; // TODO: Replace this with a database query to get the actual number of tickets sold
+        int soldTickets = 400; // TODO: Replace this with a database query to get the actual number of tickets sold (number of tickets for this event id)
 
         model.addAttribute("eventName", event.getName());
         model.addAttribute("eventDescription", event.getDescription());
@@ -48,8 +53,10 @@ public class ReservationController {
 
     @GetMapping("/reservation")
     public String getReservations(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Authentication: " + authentication); // Check authentication state
+
+        //TODO load events. Only future
+        //TODO load event halls
+
         // Mock data for events
         List<Event> events = List.of(
                 new Event(1, "2025-01-20", "Concert A", "Description for Concert A", new Hall("Main Hall", 500,1)),
@@ -79,7 +86,25 @@ public class ReservationController {
     @GetMapping("/check-login")
     public String checkLogin(@RequestParam("eventId") Long eventId, Principal principal) {
 
-            // User is logged in
+        if (principal == null) {
+            return "redirect:/user/login/check-login";
+        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserModel user = (UserModel) authentication.getDetails();
+
+        Ticket ticket = new Ticket(
+                1,
+                LocalDate.now().toString(),
+                Double.parseDouble(eventPrice),
+                Double.parseDouble(eventNetPrice),
+                "Standard",
+                user.getId(),
+                eventId.intValue()
+        );
+
+
+
+        // User is logged in
             // TODO: Add logic to handle ticket reservation and save to database
             return "redirect:/reservation/success";
 
