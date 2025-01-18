@@ -92,15 +92,15 @@ public class ReservationController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserModel user = (UserModel) authentication.getDetails();
 
-        Ticket ticket = new Ticket(
-                1,
-                LocalDate.now().toString(),
-                Double.parseDouble(eventPrice),
-                Double.parseDouble(eventNetPrice),
-                "Standard",
-                user.getId(),
-                eventId.intValue()
-        );
+//        Ticket ticket = new Ticket(
+//                1,
+//                LocalDate.now().toString(),
+//                Double.parseDouble(eventPrice),
+//                Double.parseDouble(eventNetPrice),
+//                "Standard",
+//                user,
+//                eventId
+//        );
 
 
 
