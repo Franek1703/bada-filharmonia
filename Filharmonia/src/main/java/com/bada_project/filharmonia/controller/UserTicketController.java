@@ -1,5 +1,6 @@
 package com.bada_project.filharmonia.controller;
 
+import com.bada_project.filharmonia.model.Event;
 import com.bada_project.filharmonia.model.Ticket;
 import com.bada_project.filharmonia.model.UserModel;
 import org.springframework.stereotype.Controller;
@@ -19,14 +20,25 @@ public class UserTicketController {
         // TODO: Pobierz aktualne i przeterminowane bilety z bazy danych na podstawie userId
 //        List<Ticket> currentTickets = TicketService.getCurrentTickets(userId);
 //        List<Ticket> expiredTickets = TicketService.getExpiredTickets(userId);
+        UserModel userTest = new UserModel();
+        Event eventTest1 = new Event();
+        eventTest1.setId(10);
+        Event eventTest2 = new Event();
+        eventTest2.setId(12);
+        Event eventTest3 = new Event();
+        eventTest3.setId(8);
+        Event eventTest4 = new Event();
+        eventTest4.setId(9);
+
+        user.setId(1);
         List<Ticket> currentTickets = List.of(
-                new Ticket(101, "2025-01-20", 50.0, 40.0, "VIP", 1, 10),
-                new Ticket(102, "2025-02-15", 30.0, 25.0, "Standard", 1, 12)
+                new Ticket(101, "2025-01-20", 50.0, 40.0, "VIP", userTest, eventTest1),
+                new Ticket(102, "2025-02-15", 30.0, 25.0, "Standard", userTest, eventTest2)
         );
 
         List<Ticket> expiredTickets = List.of(
-                new Ticket(201, "2024-12-01", 50.0, 40.0, "VIP", 1, 8),
-                new Ticket(202, "2024-11-10", 30.0, 25.0, "Standard", 1, 9)
+                new Ticket(201, "2024-12-01", 50.0, 40.0, "VIP", userTest, eventTest3),
+                new Ticket(202, "2024-11-10", 30.0, 25.0, "Standard", userTest, eventTest4)
         );
 
         model.addAttribute("currentTickets", currentTickets);

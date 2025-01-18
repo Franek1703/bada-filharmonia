@@ -94,7 +94,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
+            <version>1.18.2</version>
             <scope>provided</scope>
         </dependency>
 <!--        <dependency>-->
@@ -108,6 +108,10 @@
             <version>11</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/ojdbc11.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
 
     </dependencies>

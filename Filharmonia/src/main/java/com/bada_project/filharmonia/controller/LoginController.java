@@ -14,7 +14,7 @@ public class LoginController {
 
     @GetMapping("/admin/logout")
     public String logoutRedirect(Authentication auth) {
-        if (auth != null && auth.isAuthenticated()) {
+        if (auth != nul l && auth.isAuthenticated()) {
             return "redirect:/main";
         }
         return "login"; // widok logowania
