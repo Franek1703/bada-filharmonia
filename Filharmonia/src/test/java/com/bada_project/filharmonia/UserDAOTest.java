@@ -57,6 +57,14 @@ public class UserDAOTest {
     }
 
     @Test
+    void testGetByPhoneNumber() {
+        String phoneNumber = "987654321";
+        UserModel user = dao.getByPhoneNumber(phoneNumber);
+        assertNotNull(user, "User should not be null");
+        assertEquals(phoneNumber, user.getPhoneNumber());
+    }
+
+    @Test
     void testUpdate() {
         UserModel user = dao.get(101);
         user.setPhoneNumber("987654321");
