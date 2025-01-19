@@ -11,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 
 @Controller
@@ -35,6 +38,15 @@ public class UserTicketController {
         model.addAttribute("currentTickets", currentTickets);
         model.addAttribute("expiredTickets", expiredTickets);
         return "user_tickets";
+    }
+
+    @PostMapping("/user/tickets/delete")
+    public String deleteExpiredTicket(@RequestParam("ticketId") int ticketId, Authentication authentication) {
+        UserModel user = (UserModel) authentication.getDetails();
+        int userId = user.getId();
+        ticketDAO.delete(ticketId);
+
+        return "redirect:/user/tickets"; // Redirect to refresh the ticket list
     }
 }
 

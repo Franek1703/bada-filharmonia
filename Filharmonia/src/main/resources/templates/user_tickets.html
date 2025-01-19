@@ -72,6 +72,20 @@
         .content h2{
             color: #FFD700;
         }
+
+        .delete-ticket-btn {
+            background: #d9534f;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            font-size: 14px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .delete-ticket-btn:hover {
+            background: #c9302c;
+        }
     </style>
 </head>
 <body>
@@ -97,7 +111,15 @@
         <p><strong>Purchase Date:</strong> <span th:text="${ticket.purchaseDate}"></span></p>
         <p><strong>Gross Price:</strong> <span th:text="${ticket.grossPrice}"></span> USD</p>
         <p><strong>Category:</strong> <span th:text="${ticket.category}"></span></p>
+        <form th:action="@{/user/tickets/delete}" method="post">
+            <input type="hidden" th:value="${ticket.id}" name="ticketId"/>
+            <input type="submit" value="Delete Ticket" class="delete-ticket-btn"/>
+        </form>
     </div>
+
+
+
+
 </div>
 </body>
 </html>
