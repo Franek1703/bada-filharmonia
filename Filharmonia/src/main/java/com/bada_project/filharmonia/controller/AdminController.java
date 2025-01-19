@@ -43,19 +43,12 @@ public class AdminController {
 
     @PostMapping("/admin/event/add")
     public String addEvent(Event event, @RequestParam String hallId) {
-
         int hallIdInt = Integer.parseInt(hallId);
-
-        System.out.println(hallIdInt);
-
         Hall hall = hallDAO.get(hallIdInt);
 
         event.setHall(hall);
-
-        // TODO: Zapisz nowe wydarzenie do bazy
         eventDAO.save(event);
 
-//        eventService.saveEvent(event);
         return "redirect:/admin";
     }
 }

@@ -83,8 +83,8 @@
 <div class="content">
     <h1>My Tickets</h1>
     <div th:each="ticket : ${currentTickets}" class="ticket">
-        <p><strong>Event ID:</strong> <span th:text="${ticket.eventId}"></span></p>
-        <p><strong>Ticket Number:</strong> <span th:text="${ticket.ticketNumber}"></span></p>
+        <p><strong>Events:</strong> <span th:text="${ticket.event.name}"></span></p>
+        <p><strong>Ticket Number:</strong> <span th:text="${ticket.id}"></span></p>
         <p><strong>Purchase Date:</strong> <span th:text="${ticket.purchaseDate}"></span></p>
         <p><strong>Gross Price:</strong> <span th:text="${ticket.grossPrice}"></span> USD</p>
         <p><strong>Category:</strong> <span th:text="${ticket.category}"></span></p>
@@ -92,8 +92,8 @@
 
     <h2>Expired Tickets</h2>
     <div th:each="ticket : ${expiredTickets}" class="ticket expired">
-        <p><strong>Event ID:</strong> <span th:text="${ticket.eventId}"></span></p>
-        <p><strong>Ticket Number:</strong> <span th:text="${ticket.ticketNumber}"></span></p>
+        <p><strong>Event:</strong> <span th:text="${ticket.event.name}"></span></p>
+        <p><strong>Ticket Number:</strong> <span th:text="${ticket.id}"></span></p>
         <p><strong>Purchase Date:</strong> <span th:text="${ticket.purchaseDate}"></span></p>
         <p><strong>Gross Price:</strong> <span th:text="${ticket.grossPrice}"></span> USD</p>
         <p><strong>Category:</strong> <span th:text="${ticket.category}"></span></p>
