@@ -1,9 +1,13 @@
 package com.bada_project.filharmonia.controller;
 
+import com.bada_project.filharmonia.dao.EventDAO;
+import com.bada_project.filharmonia.dao.HallDAO;
+import com.bada_project.filharmonia.dao.TicketDAO;
 import com.bada_project.filharmonia.model.Event;
 import com.bada_project.filharmonia.model.Hall;
 import com.bada_project.filharmonia.model.Ticket;
 import com.bada_project.filharmonia.model.UserModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +24,12 @@ import java.util.stream.Collectors;
 
 @Controller
 public class ReservationController {
+    @Autowired
+    private EventDAO eventDAO;
+    @Autowired
+    private HallDAO hallDAO;
+    @Autowired
+    private TicketDAO ticketDAO;
 
     @Value("${event.price}")
     private String eventPrice;
@@ -28,8 +38,11 @@ public class ReservationController {
 
     @PostMapping("/reservation/event")
     public String getEventDetails(@ModelAttribute Event event, Model model) {
+
+        Hall hall   = hallDAO.get(event.getHall().getId());
+        event.setHall(hall);
         // Mock data for demonstration purposes
-        int soldTickets = 400; // TODO: Replace this with a database query to get the actual number of tickets sold (number of tickets for this event id)
+        int soldTickets = ticketDAO.listByEventId(event.getId()).size();
 
         model.addAttribute("eventName", event.getName());
         model.addAttribute("eventDescription", event.getDescription());
@@ -37,7 +50,7 @@ public class ReservationController {
         model.addAttribute("hallName", event.getHall().getName());
         model.addAttribute("totalSeats", event.getHall().getCapacity());
         model.addAttribute("soldTickets", soldTickets);
-        model.addAttribute("availableSeats", event.getHall().getCapacity() - soldTickets);
+        model.addAttribute("availableSeats", Math.max(event.getHall().getCapacity() - soldTickets, 0));
         model.addAttribute("eventID", event.getId());
         model.addAttribute("eventPrice", eventPrice);
         // Check if the hall is fully booked
@@ -53,22 +66,10 @@ public class ReservationController {
 
     @GetMapping("/reservation")
     public String getReservations(Model model) {
-
-        //TODO load events. Only future
         //TODO load event halls
 
         // Mock data for events
-        List<Event> events = List.of(
-                new Event(1, "2025-01-20", "Concert A", "Description for Concert A", new Hall("Main Hall", 500,1)),
-                new Event(2, "2025-01-20", "Concert B", "Description for Concert B", new Hall("Main Hall", 500,1)),
-                new Event(3, "2025-01-23", "Concert C", "Description for Concert C", new Hall("Main Hall", 500,1)),
-                new Event(4, "2025-01-21", "Concert C", "Description for Concert C", new Hall("Main Hall", 500,1)),
-                new Event(5, "2025-01-20", "Concert A", "Description for Concert A", new Hall("Main Hall", 500,1)),
-                new Event(6, "2025-01-20", "Concert B", "Description for Concert B", new Hall("Main Hall", 500,1)),
-                new Event(7, "2025-01-23", "Concert C", "Description for Concert C", new Hall("Main Hall", 500,1)),
-                new Event(8, "2025-01-21", "Concert C", "Description for Concert C, Description for Concert C,Description for Concert C,Description for Concert C,Description for Concert C,Description for Concert C", new Hall("Main Hall", 500,1))
-        );
-
+        List<Event> events = eventDAO.list();
 
         // Group events by date
         Map<String, List<Event>> groupedEvents = events.stream()
@@ -92,15 +93,23 @@ public class ReservationController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserModel user = (UserModel) authentication.getDetails();
 
-//        Ticket ticket = new Ticket(
-//                1,
-//                LocalDate.now().toString(),
-//                Double.parseDouble(eventPrice),
-//                Double.parseDouble(eventNetPrice),
-//                "Standard",
-//                user,
-//                eventId
-//        );
+        //Ticket ticket = new Ticket();
+
+        Event event = new Event();
+        event.setId(eventId.intValue());
+
+        Ticket ticket = new Ticket(
+                1,
+                LocalDate.now().toString(),
+                Double.parseDouble(eventPrice),
+                Double.parseDouble(eventNetPrice),
+                "Standard",
+                user,
+                event
+
+        );
+
+        ticketDAO.save(ticket);
 
 
 

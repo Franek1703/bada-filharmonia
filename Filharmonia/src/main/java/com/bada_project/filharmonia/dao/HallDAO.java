@@ -1,14 +1,19 @@
 package com.bada_project.filharmonia.dao;
 
 import com.bada_project.filharmonia.model.Hall;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+@Repository
 public class HallDAO {
+
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     public HallDAO(JdbcTemplate jdbcTemplate) {

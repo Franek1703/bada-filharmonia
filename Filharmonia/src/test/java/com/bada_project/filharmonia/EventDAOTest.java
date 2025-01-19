@@ -30,12 +30,12 @@ public class EventDAOTest {
     @Test
     void testList() {
         List<Event> listEvent = dao.list();
-        assertTrue(listEvent.isEmpty());
+        assertFalse(listEvent.isEmpty());
     }
 
     @Test
     void testSave() {
-        Event event = new Event(0, "2025-01-20", "Concert A", "Description for Concert A", new Hall("Main Hall", 500,0));
+        Event event = new Event(1, "2025-01-20", "Concert A", "Description for Concert A", new Hall("Main Hall", 500,0));
         dao.save(event);
     }
 

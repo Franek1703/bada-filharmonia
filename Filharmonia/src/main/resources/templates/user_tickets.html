@@ -72,6 +72,20 @@
         .content h2{
             color: #FFD700;
         }
+
+        .delete-ticket-btn {
+            background: #d9534f;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            font-size: 14px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .delete-ticket-btn:hover {
+            background: #c9302c;
+        }
     </style>
 </head>
 <body>
@@ -83,8 +97,8 @@
 <div class="content">
     <h1>My Tickets</h1>
     <div th:each="ticket : ${currentTickets}" class="ticket">
-        <p><strong>Event ID:</strong> <span th:text="${ticket.eventId}"></span></p>
-        <p><strong>Ticket Number:</strong> <span th:text="${ticket.ticketNumber}"></span></p>
+        <p><strong>Events:</strong> <span th:text="${ticket.event.name}"></span></p>
+        <p><strong>Ticket Number:</strong> <span th:text="${ticket.id}"></span></p>
         <p><strong>Purchase Date:</strong> <span th:text="${ticket.purchaseDate}"></span></p>
         <p><strong>Gross Price:</strong> <span th:text="${ticket.grossPrice}"></span> USD</p>
         <p><strong>Category:</strong> <span th:text="${ticket.category}"></span></p>
@@ -92,12 +106,20 @@
 
     <h2>Expired Tickets</h2>
     <div th:each="ticket : ${expiredTickets}" class="ticket expired">
-        <p><strong>Event ID:</strong> <span th:text="${ticket.eventId}"></span></p>
-        <p><strong>Ticket Number:</strong> <span th:text="${ticket.ticketNumber}"></span></p>
+        <p><strong>Event:</strong> <span th:text="${ticket.event.name}"></span></p>
+        <p><strong>Ticket Number:</strong> <span th:text="${ticket.id}"></span></p>
         <p><strong>Purchase Date:</strong> <span th:text="${ticket.purchaseDate}"></span></p>
         <p><strong>Gross Price:</strong> <span th:text="${ticket.grossPrice}"></span> USD</p>
         <p><strong>Category:</strong> <span th:text="${ticket.category}"></span></p>
+        <form th:action="@{/user/tickets/delete}" method="post">
+            <input type="hidden" th:value="${ticket.id}" name="ticketId"/>
+            <input type="submit" value="Delete Ticket" class="delete-ticket-btn"/>
+        </form>
     </div>
+
+
+
+
 </div>
 </body>
 </html>

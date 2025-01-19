@@ -2,13 +2,18 @@ package com.bada_project.filharmonia.dao;
 
 import com.bada_project.filharmonia.model.Event;
 import com.bada_project.filharmonia.model.Hall;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+@Repository
 public class EventDAO {
+
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     public EventDAO(JdbcTemplate jdbcTemplate) {
@@ -37,6 +42,11 @@ public class EventDAO {
     }
 
     public void save(Event event) {
+        String getMaxIdSql = "SELECT COALESCE(MAX(\"Nr_wydarzenia\"), 0) FROM \"Wydarzenia\"";
+        int newId = jdbcTemplate.queryForObject(getMaxIdSql, Integer.class) + 1;
+
+        event.setId(newId);
+
         String sql = "INSERT INTO \"Wydarzenia\" (\"Nr_wydarzenia\", \"Data\", \"Nazwa\", \"Opis\", \"Nr_sali_koncertowej\") " +
                 "VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, event.getId(), event.getDate(), event.getName(),

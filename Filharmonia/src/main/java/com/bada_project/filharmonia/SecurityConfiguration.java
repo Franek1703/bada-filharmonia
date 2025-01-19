@@ -1,8 +1,11 @@
 package com.bada_project.filharmonia;
 
+import com.bada_project.filharmonia.dao.HallDAO;
+import com.bada_project.filharmonia.dao.UserDAO;
 import com.bada_project.filharmonia.model.UserModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -18,10 +21,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.stereotype.Controller;
 //import java.util.logging.Logger;
 
+@Controller
 @Configuration
 public class SecurityConfiguration {
+    @Autowired
+    private UserDAO userDAO;
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
 
@@ -72,23 +79,23 @@ public class SecurityConfiguration {
                 )
                 .formLogin(form -> form
                         .loginPage("/user/login") // User login page
-                                .successHandler((request, response, authentication) -> {
-                                    SavedRequest savedRequest = (SavedRequest) request.getSession()
-                                            .getAttribute("SPRING_SECURITY_SAVED_REQUEST");
-                                    String redirectUrl = savedRequest != null
-                                            ? savedRequest.getRedirectUrl()
-                                            : request.getHeader("Referer");
+                        .successHandler((request, response, authentication) -> {
+                            SavedRequest savedRequest = (SavedRequest) request.getSession()
+                                    .getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+                            String redirectUrl = savedRequest != null
+                                    ? savedRequest.getRedirectUrl()
+                                    : request.getHeader("Referer");
 
-                                        if(redirectUrl.contains("/user/login")){
-                                            redirectUrl = redirectUrl.replace("/user/login", "");
-                                        }
-                                        if(redirectUrl.isEmpty()) {
-                                            redirectUrl = "/main";
-                                        }
-                                    System.out.println("User logged in: " + authentication.getName());
-                                    System.out.println("Redirecting to: " + redirectUrl);
-                                    response.sendRedirect(redirectUrl);
-                                })
+                            if(redirectUrl.contains("/user/login")){
+                                redirectUrl = redirectUrl.replace("/user/login", "");
+                            }
+                            if(redirectUrl.isEmpty()) {
+                                redirectUrl = "/main";
+                            }
+                            System.out.println("User logged in: " + authentication.getName());
+                            System.out.println("Redirecting to: " + redirectUrl);
+                            response.sendRedirect(redirectUrl);
+                        })
                         .permitAll()
                 )
                 .logout(logout -> logout
@@ -126,21 +133,37 @@ public class SecurityConfiguration {
                 String firstName = parts[0];
                 String lastName = parts[1];
 
+
+
                 //TODO LOAD user from data base, if not exist create one and return user id
 
-                int testId = 1;
+                UserModel tempUser = userDAO.getByPhoneNumber(username);
+                int userId = 0;
+
+                if(tempUser != null) {
+                    if (!tempUser.getFirstName().equals(firstName) ||!tempUser.getLastName().equals(lastName) ) {
+                        throw new AuthenticationException("Invalid credentials") {};
+                    }
+                    userId = tempUser.getId();
+
+                }
+                if(tempUser == null) {
+                    UserModel u = new UserModel();
+                    u.setPhoneNumber(username);
+                    u.setFirstName(firstName);
+                    u.setLastName(lastName);
+                    userId = userDAO.save(u).getId();
+                }
 
                 // Custom validation (this is where you can check against hardcoded values or future database)
-                if ("504440436".equals(username) && "Franciszek".equals(firstName) && "Zarębski".equals(lastName)) {
-                    UserDetails user = User.withUsername(username)
-                            .password("") // No password required
-                            .roles("USER")
-                            .build();
-                    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-                    auth.setDetails(new UserModel(firstName,lastName,testId,username)); // Add custom details
-                    return auth;
-                }
-                throw new AuthenticationException("Invalid credentials") {};
+                UserDetails user = User.withUsername(username)
+                        .password("") // No password required
+                        .roles("USER")
+                        .build();
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                auth.setDetails(new UserModel(firstName,lastName,userId,username)); // Add custom details
+                return auth;
+
             }
 
             @Override
